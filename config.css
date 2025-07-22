@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html{
+    font-size: 10px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+:root{
+    --color-rojo:red; 
+    --color-verde: green;
+    --color-amarillo: yellow; 
+
+    --titulo-h1:2.6rem;
+    --titulo-h2: 1.8rem ;
+    --titulo-h3: 16rem;
+    --parrafo:14em;
+    --spam: 12rem
+}
