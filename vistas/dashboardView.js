@@ -1,9 +1,11 @@
+import { header } from "../componentes/header/headerComponent.js";
+
 export function dashboard() {
 
  let seccion = document.createElement('seccion');
-    let h1 = document.createElement ('h1');
-    h1.innerText = "Hola mundo"
-    seccion.appendChild(h1);
+  
+//header
+seccion.appendChild(header());
 
 return seccion; 
 
