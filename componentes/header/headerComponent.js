@@ -1,17 +1,29 @@
 export function header() {
-let header = document.createElement('header')
 
-let h1 =  document.createElement('h1');
-h1.innerText = "Todo-List";
-header.appendChild(h1);
+    let header = document.createElement('header');
+    
+    let h1 = document.createElement('h1');
+    h1.textContent = "Todo-List";
+    header.appendChild(h1);
 
-let divTareas = document.createElement('div');
-divTareas.className = "div-tareas";
-header.appendChild(divTareas);
+    let statusBox = document.createElement('div');
+    statusBox.className = "status-box";
+    header.appendChild(statusBox);
 
-let divLogoUsuario = document.createElement('div');
-divLogoUsuario.className = "div-logo-usuario";
-header.appendChild(divLogoUsuario);
+    let userEmoji = document.createElement('span');
+    userEmoji.className = "user-emoji";
+    userEmoji.textContent = "👩🏻‍🎓";
+    statusBox.appendChild(userEmoji);
 
-return header
+    let taskText = document.createElement('span');
+    taskText.className = "task-text";
+    taskText.textContent = "Pendientes:";
+    statusBox.appendChild(taskText);
+
+    let taskCount = document.createElement('span');
+    taskCount.className = "task-count";
+    taskCount.textContent = "0";
+    statusBox.appendChild(taskCount);
+
+    return header;
 }
