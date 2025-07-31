@@ -1,15 +1,15 @@
 import { tarea } from "../../modulos/itemTarea/itemTarea.js";
 
 let tareasDb = [
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] },
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] },
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] },
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"]},
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] },
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] },
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] },
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] },
-    { titulo: "Asignación", integrantes: ["👍🏻", "👎🏻"] }
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "👨🏻‍🎓"] },
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "👨🏻‍🎓"] },
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "👨🏻‍🎓"] },
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "👨🏻‍🎓"]},
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "👨🏻‍🎓"] },
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "👨🏻‍🎓"] },
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "🧑🏻‍🎓"] },
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "v"] },
+    { titulo: "Asignación", integrantes: ["🧑🏻‍🎓", "🧑🏻‍🎓"] }
 ];
 
 export function tareas() {
