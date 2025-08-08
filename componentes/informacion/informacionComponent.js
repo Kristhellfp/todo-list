@@ -1,3 +1,5 @@
+import { formularioComponent } from "../formulario/formularioComponent.js";
+
 export function informacion(data) {
     let infoContainer = document.createElement('div');
     infoContainer.className = "info-container";
@@ -8,6 +10,7 @@ export function informacion(data) {
     let taskButton = document.createElement('button');
     taskButton.className = "task-button";
     taskButton.innerText = "+ Tarea";
+    taskButton.id = "btnMostrarFormulario";
 
     let archivedButton = document.createElement('button');
     archivedButton.className = "archived-button";
@@ -25,7 +28,6 @@ export function informacion(data) {
     statusCircle.innerText = data.estado || "Estado";
     card.appendChild(statusCircle);
 
-    
     let title = document.createElement('h3');
     title.className = "task-title";
     title.innerText = data.titulo || "Título no disponible";
@@ -69,6 +71,13 @@ export function informacion(data) {
     card.appendChild(deleteIcon);
 
     infoContainer.appendChild(card);
+
+    const formulario = formularioComponent();
+    infoContainer.appendChild(formulario);
+
+    taskButton.addEventListener("click", () => {
+        formulario.style.display = (formulario.style.display === "none") ? "block" : "none";
+    });
 
     return infoContainer;
 }

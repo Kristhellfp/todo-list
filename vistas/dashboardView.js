@@ -1,6 +1,7 @@
 import { header } from "../componentes/header/headerComponent.js";
 import { footer } from "../componentes/footer/footerComponentes.js";
 import { informacion } from "../componentes/informacion/informacionComponent.js";
+import { formularioComponent } from "../componentes/formulario/formularioComponent.js";
 
 export function dashboard() {
     const tareasLista = [
@@ -93,6 +94,7 @@ export function dashboard() {
         integrantes: tareasLista[0].integrantes,
         descripcion: tareasLista[0].descripcion
     });
+
 
     panelCentral.appendChild(panelTareas);
     panelCentral.appendChild(panelInfo);

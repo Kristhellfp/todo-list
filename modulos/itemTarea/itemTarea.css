@@ -1,93 +1,161 @@
-body {
-    margin: 0;
-    padding: 20px;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(to right, #f3f4f7, #eaf0fc);
-    color: #2c3e50;
-    overflow-x: hidden;
-    font-family: 'Poppins', 'Segoe UI', sans-serif;
-    height: 100%;
+.tarea {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 14px;
+  transition: transform 0.2s ease;
 }
 
-
-
-.div-tareas {
-    display: grid;
-    grid-template-columns: 60px 1.5fr 1fr 1fr 1fr 1fr 50px;
-    gap: 14px;
-    align-items: center;
-    max-width: 100%;
-    padding: 25px;
-    box-sizing: border-box;
-    overflow: hidden;
+.tarea:hover {
+  transform: translateY(-2px);
 }
 
-.tarea-container {
-    display: contents; 
+.tarea-numero {
+  border: 2px solid #3498db;
+  border-radius: 10px;
+  padding: 5px 10px;
+  font-weight: bold;
+  color: #3498db;
+  font-size: 14px;
 }
 
-.div-numero {
-    background-color: #dce4f2;
-    border-radius: 8px;
-    padding: 4px;
-    text-align: center;
-    font-weight: 400;
+.tarea-titulo {
+  flex: 1 1 100%;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c3e50;
 }
 
-
-.titulo {
-    font-size: 16px;
-    font-weight: 600;
-    color: #2c3e50;
+.tarea-estado {
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
 }
 
-.estado {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
-    background-color: #f0f0f0;
-    color: #555;
-    text-align: center;
+.estado-verde {
+  background-color: #d4f4d7;
+  color: #2e7d32;
+  border: 1px solid #2ecc71;
 }
 
-.estado.completado {
-    background-color: #d2f6e9;
-    color: #27ae60;
+.estado-borde {
+  background-color: transparent;
+  color: #3498db;
+  border: 1px solid #3498db;
 }
 
-.fecha {
-    font-size: 13px;
-    color: #777;
-    text-align: center;
+.estado-gris {
+  background-color: #f0f0f0;
+  color: #555;
+  border: 1px solid #ccc;
 }
 
-.integrantes {
-    display: flex;
-    gap: 6px;
-    justify-content: center;
+.tarea-fecha {
+  font-size: 13px;
+  color: #666;
+  white-space: nowrap;
 }
 
-.integrantes span {
-    background-color: #fff;
-    border: 2px solid #bbb;
-    border-radius: 50%;
-    padding: 2px;
+.tarea-integrantes {
+  display: flex;
+  gap: 8px;
+}
+
+.integrante {
+  border: 2px solid #3498db;
+  border-radius: 50%;
+  background-color: #ecf5fd;
+  color: #2c3e50;
+  padding: 6px;
+  font-size: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.tarea-eliminar {
+  color: #e74c3c;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.tarea-eliminar:hover {
+  transform: scale(1.2);
+}
+
+.resaltado {
+  border: 2px solid #f1c40f;
+  background-color: #fffde7;
+}
+
+@media (max-width: 768px) {
+  .tarea {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tarea-titulo {
+    font-size: 15px;
+  }
+
+  .tarea-numero,
+  .tarea-estado,
+  .tarea-fecha,
+  .tarea-integrantes,
+  .tarea-eliminar {
+    margin-top: 6px;
+  }
+
+  .tarea-eliminar {
+    align-self: flex-end;
+  }
+
+  .tarea-estado {
+    font-size: 12px;
+    padding: 5px 12px;
+  }
+
+  .tarea-fecha {
+    font-size: 12px;
+  }
+
+  .integrante {
+    font-size: 14px;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tarea {
+    padding: 15px;
+  }
+
+  .tarea-titulo {
+    font-size: 14px;
+  }
+
+  .tarea-eliminar {
     font-size: 18px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-}
+  }
 
-/* Eliminar */
-.eliminar {
-    background: none;
-    border: none;
-    color: #e74c3c;
-    font-size: 18px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-.eliminar:hover {
-    transform: scale(1.2);
-    color: #c0392b;
+  .tarea-estado {
+    padding: 4px 10px;
+  }
 }
