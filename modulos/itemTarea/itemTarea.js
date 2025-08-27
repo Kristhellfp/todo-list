@@ -1,4 +1,5 @@
-export function tarea(indice, titulo, estado, fechaAs, fechaEn, listaIntegrantes, resaltar = false) {
+// modulos/itemTarea/itemTarea.js
+export function crearTarea(indice, titulo, estado, fechaAs, fechaEn, listaIntegrantes, resaltar = false) {
     let div = document.createElement('div');
     div.className = "tarea";
     if (resaltar) div.classList.add("resaltado");
@@ -9,26 +10,30 @@ export function tarea(indice, titulo, estado, fechaAs, fechaEn, listaIntegrantes
 
     let h3Titulo = document.createElement('h3');
     h3Titulo.className = "tarea-titulo";
-    h3Titulo.textContent = titulo;
+    h3Titulo.textContent = titulo || "Sin título";
 
     let divEstado = document.createElement('div');
     divEstado.className = "tarea-estado";
-    if (estado.toLowerCase() === "completado") {
+    
+    // VALIDACIÓN PARA ESTADO UNDEFINED O NULL
+    const estadoValido = estado ? estado.toString().toLowerCase() : "desconocido";
+    
+    if (estadoValido === "completado") {
         divEstado.classList.add("estado-verde");
-    } else if (estado.toLowerCase() === "pendiente") {
+    } else if (estadoValido === "pendiente") {
         divEstado.classList.add("estado-gris");
     } else {
         divEstado.classList.add("estado-borde");
     }
-    divEstado.textContent = estado;
+    divEstado.textContent = estado || "Desconocido";
 
     let fechaAsignacion = document.createElement('div');
     fechaAsignacion.className = "tarea-fecha";
-    fechaAsignacion.textContent = fechaAs;
+    fechaAsignacion.textContent = fechaAs || "No asignada";
 
     let fechaEntrega = document.createElement('div');
     fechaEntrega.className = "tarea-fecha";
-    fechaEntrega.textContent = fechaEn;
+    fechaEntrega.textContent = fechaEn || "No asignada";
 
     let divIntegrantes = document.createElement('div');
     divIntegrantes.className = "tarea-integrantes";

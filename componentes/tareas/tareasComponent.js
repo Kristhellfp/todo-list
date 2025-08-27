@@ -1,3 +1,6 @@
+// componentes/tareas/tareasComponent.js
+
+// Importar correctamente desde la ruta relativa
 import { crearTarea } from "../../modulos/itemTarea/itemTarea.js";
 
 export function tareas(tareasDb) {
@@ -7,7 +10,7 @@ export function tareas(tareasDb) {
     tareasDb.forEach((e, i) => {
         panelListado.appendChild(
             crearTarea(
-                i,
+                i + 1, // Mostrar números comenzando desde 1
                 e.titulo,
                 e.estado,
                 e.fechaAs,
