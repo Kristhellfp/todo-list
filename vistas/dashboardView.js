@@ -9,7 +9,7 @@ import { tareas } from "../componentes/tareas/tareasComponent.js";
 export async function dashboard() {
     let tareasLista = [];
     try {
-        const resultado = await fetch(" https://backend-todo-list-1-76oa.onrender.com/tareas");
+        const resultado = await fetch("https://backend-todo-list-2-9h9j.onrender.com/tareas");
         tareasLista = await resultado.json();
         console.log("Tareas cargadas desde BD:", tareasLista);
         
