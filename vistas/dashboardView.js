@@ -1,4 +1,4 @@
-// vistas/dashboardView.js - ARCHIVO CORREGIDO
+// vistas/dashboardView.js - VERSIÓN SIN DATOS DE PRUEBA
 
 // Importar componentes desde las rutas correctas
 import { header } from "../componentes/header/headerComponent.js";
@@ -8,65 +8,50 @@ import { tareas } from "../componentes/tareas/tareasComponent.js";
 
 export async function dashboard() {
     let tareasLista = [];
+    let errorCarga = false;
+    
     try {
-        const resultado = await fetch("https://backend-todo-list-2-9h9j.onrender.com/tareas");
-        tareasLista = await resultado.json();
-        console.log("Tareas cargadas desde BD:", tareasLista);
+        // Intentar cargar datos del backend
+        const resultado = await fetch("https://backend-todo-list-3.onrender.com/api/tareas");
         
-        // TRANSFORMAR LOS DATOS para que coincidan con lo que espera tu código
+        if (!resultado.ok) {
+            throw new Error(`Error HTTP: ${resultado.status}`);
+        }
+        
+        tareasLista = await resultado.json();
+        console.log("Tareas cargadas desde el backend:", tareasLista);
+        
+        // Transformar los datos para que coincidan con lo que espera tu código
         tareasLista = tareasLista.map(tarea => ({
-            // Mapear 'nombre' a 'titulo'
-            titulo: tarea.nombre || "Sin título",
-            // Mantener 'descripcion' 
-            descripcion: tarea.descripcion || "Sin descripción",
-            // Si hay otras propiedades que necesitas, ajústalas aquí
-            estado: tarea.estado || "Pendiente",
-            fechaAs: tarea.fechaAsignacion || tarea.fechaAs || "No asignada",
-            fechaEn: tarea.fechaEntrega || tarea.fechaEn || "No asignada",
-            integrantes: Array.isArray(tarea.integrantes) ? tarea.integrantes : [],
-            // Si necesitas el id u otras propiedades de la BD
+            // Mapear las columnas de la base de datos a las propiedades del frontend
             id: tarea.id,
-            // Añade cualquier otra propiedad que necesites
-            claseEstado: tarea.claseEstado || false
+            titulo: tarea.nombre || "Sin título",
+            descripcion: tarea.descripcion || "Sin descripción",
+            estado: tarea.estado_tarea || "pendiente",
+            fechaAs: tarea.fecha_asignada || new Date().toISOString().split('T')[0],
+            fechaEn: tarea.fecha_entrega || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+            integrantes: ["👩🏻‍💻"], // Valor por defecto
+            claseEstado: tarea.estado_activado || false,
+            usuario_id: tarea.usuario_id
         }));
         
         console.log("Tareas transformadas:", tareasLista);
         
-        // Actualizar contador de tareas pendientes en el header
-        const pendientes = tareasLista.filter(t => t.estado && t.estado.toLowerCase() === "pendiente").length;
-        const taskCountElement = document.querySelector('.task-count');
-        if (taskCountElement) {
-            taskCountElement.textContent = pendientes;
-        }
     } catch (error) {
         console.error("Error al cargar tareas:", error);
-        // Mostrar mensaje de error en la interfaz
+        errorCarga = true;
+        
+        // NO cargar datos de prueba - solo mostrar error
         const errorMsg = document.createElement('div');
         errorMsg.className = 'error-message';
-        errorMsg.textContent = 'Error al cargar las tareas. Verifica que el servidor esté ejecutándose.';
+        errorMsg.innerHTML = `
+            <h3>Error de conexión</h3>
+            <p>No se pudieron cargar las tareas desde el servidor.</p>
+            <p>Verifica que el backend esté ejecutándose en:</p>
+            <code>http://localhost:3000/api/tareas</code>
+            <p>Error: ${error.message}</p>
+        `;
         document.body.appendChild(errorMsg);
-        
-        // Cargar datos de ejemplo si hay error
-        tareasLista = [
-            {
-                titulo: "Proyecto Final JavaScript",
-                estado: "Pendiente",
-                fechaAs: "2023-11-10",
-                fechaEn: "2023-11-20",
-                integrantes: ["👩🏻‍💻", "👨🏽‍💻"],
-                descripcion: "Implementar el proyecto final del curso",
-                claseEstado: true
-            },
-            {
-                titulo: "Diseño de Interfaz",
-                estado: "Completado",
-                fechaAs: "2023-11-05",
-                fechaEn: "2023-11-15",
-                integrantes: ["👩🏼‍💻"],
-                descripcion: "Diseñar la interfaz de usuario",
-                claseEstado: false
-            }
-        ];
     }
 
     const contenedorDashboard = document.createElement("section");
@@ -79,8 +64,16 @@ export async function dashboard() {
     const panelCentral = document.createElement("section");
     panelCentral.className = "panel-central";
 
-    // Crear panel de información con la primera tarea
-    if (tareasLista.length > 0) {
+    // Solo mostrar información si hay tareas y no hubo error
+    if (!errorCarga && tareasLista.length > 0) {
+        // Actualizar contador de tareas pendientes en el header
+        const pendientes = tareasLista.filter(t => t.estado && t.estado.toLowerCase() === "pendiente").length;
+        const taskCountElement = document.querySelector('.task-count');
+        if (taskCountElement) {
+            taskCountElement.textContent = pendientes;
+        }
+
+        // Crear panel de información con la primera tarea
         const primeraTarea = tareasLista[0];
         const panelInfo = informacion({
             titulo: primeraTarea.titulo,
@@ -91,27 +84,30 @@ export async function dashboard() {
             descripcion: primeraTarea.descripcion
         });
         panelCentral.appendChild(panelInfo);
-    } else {
-        // Mensaje cuando no hay tareas
+
+        // Crear panel de tareas
+        const panelTareas = document.createElement("section");
+        panelTareas.className = "panel-tareas";
+        
+        // Añadir componente de tareas
+        panelTareas.appendChild(tareas(tareasLista));
+        panelCentral.appendChild(panelTareas);
+        
+    } else if (!errorCarga) {
+        // Mensaje cuando no hay tareas (pero no hubo error)
         const noTasksMsg = document.createElement('div');
         noTasksMsg.className = 'no-tasks-message';
-        noTasksMsg.textContent = 'No hay tareas disponibles. ¡Agrega una nueva tarea!';
+        noTasksMsg.innerHTML = `
+            <h3>No hay tareas</h3>
+            <p>No se encontraron tareas en la base de datos.</p>
+            <p>¡Agrega una nueva tarea para comenzar!</p>
+        `;
         panelCentral.appendChild(noTasksMsg);
     }
-
-    // Crear panel de tareas
-    const panelTareas = document.createElement("section");
-    panelTareas.className = "panel-tareas";
     
-    // Añadir componente de tareas
-    if (tareasLista.length > 0) {
-        panelTareas.appendChild(tareas(tareasLista));
-    }
-    
-    panelCentral.appendChild(panelTareas);
     contenedorDashboard.appendChild(panelCentral);
     
-    // Añadir footer
+    // Añadir footer (siempre visible)
     contenedorDashboard.appendChild(footer());
 
     return contenedorDashboard;
@@ -120,33 +116,20 @@ export async function dashboard() {
 // Detectar si estamos en el contexto del navegador
 const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined';
 
-// Solo ejecutar si estamos en el navegador y es el script principal
+// Solo ejecutar si estamos en el navegador
 if (isBrowser) {
-    // Verificar si este script fue cargado como módulo principal
-    const scripts = document.getElementsByTagName('script');
-    let isMainModule = false;
-    
-    for (let i = 0; i < scripts.length; i++) {
-        if (scripts[i].src && scripts[i].src.includes('dashboardView.js')) {
-            isMainModule = true;
-            break;
-        }
-    }
-    
-    if (isMainModule) {
-        dashboard().then(elemento => {
-            // Limpiar el body antes de añadir el dashboard
-            document.body.innerHTML = '';
-            document.body.appendChild(elemento);
-        }).catch(error => {
-            console.error('Error al cargar el dashboard:', error);
-            document.body.innerHTML = `
-                <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
-                    <h2>Error al cargar la aplicación</h2>
-                    <p>${error.message}</p>
-                    <p>Verifica que todos los archivos estén correctamente importados.</p>
-                </div>
-            `;
-        });
-    }
+    dashboard().then(elemento => {
+        // Limpiar el body antes de añadir el dashboard
+        document.body.innerHTML = '';
+        document.body.appendChild(elemento);
+    }).catch(error => {
+        console.error('Error al cargar el dashboard:', error);
+        document.body.innerHTML = `
+            <div style="padding: 20px; text-align: center; font-family: Arial, sans-serif;">
+                <h2>Error al cargar la aplicación</h2>
+                <p>${error.message}</p>
+                <p>Verifica que todos los archivos estén correctamente importados.</p>
+            </div>
+        `;
+    });
 }
